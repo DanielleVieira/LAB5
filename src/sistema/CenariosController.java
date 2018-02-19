@@ -1,13 +1,17 @@
 package sistema;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cenarios.Cenario;
 import cenarios.CenarioComBonus;
+import comparadores.ComparadorPorCadastro;
 import exceptions.ApostaFechadaException;
 import exceptions.CenarioAbertoException;
 import exceptions.CenarioEncerradoException;
+import factory.ComparadoresFactory;
 
 public class CenariosController {
 
@@ -15,11 +19,13 @@ public class CenariosController {
 	
 	private List<Cenario> cenarios;
 	private int cenarioID;
+	private Comparator<Cenario> comparador;
 	
 	
 	
 	public CenariosController() {
 		this.cenarios = new ArrayList<>();
+		this.comparador = new ComparadorPorCadastro();
 		this.cenarioID = 1;
 	}
 
@@ -55,14 +61,20 @@ public class CenariosController {
 	
 	
 	
-	public String exibirCenario(int cenarioID) {
-		return this.buscaCenario(cenarioID).toString();
+	public String exibirCenario(int cenario) {
+		try {
+			this.alterarOrdem("Cadastro");
+			return this.exibirCenarioOrdenado(cenario);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Erro na consulta de cenario: Cenario nao cadastrado");
+		}
+		
 	}
 	
 	
 	
 	private Cenario buscaCenario(int cenarioID) {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta de cenario: Cenario nao cadastrado");
+		this.validaCenarioNaoCadastrado(cenarioID, "Cenario nao cadastrado");
 		return this.cenarios.get(cenarioID - 1);
 	}
 
@@ -77,6 +89,7 @@ public class CenariosController {
 
 
 	public String exibirCenarios() {
+		this.alterarOrdem("Cadastro");
 		String str = "";
 		for (Cenario cenario : cenarios) {
 			str += cenario.toString() + "\n";
@@ -140,6 +153,20 @@ public class CenariosController {
 	public int getTotalRateioCenario(int cenarioID) throws CenarioAbertoException {
 		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta do total de rateio do cenario: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).getTotalRateioCenario();
+	}
+
+
+
+	public void alterarOrdem(String ordem) {
+		this.comparador = ComparadoresFactory.criaComparador(ordem);
+		Collections.sort(this.cenarios, this.comparador);
+	}
+
+
+
+	public String exibirCenarioOrdenado(int cenario) {
+		this.validaCenarioNaoCadastrado(cenario, "Erro na consulta de cenario ordenado: Cenario nao cadastrado");
+		return this.cenarios.get(cenario- 1).toString();
 	}
 	
 }

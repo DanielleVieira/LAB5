@@ -19,7 +19,7 @@ public class CenarioComBonus extends Cenario {
 
 	@Override
 	public String toString() {
-		return super.toString() + " - R$ " + this.bonus / 100 + ",00";
+		return String.format("%s - R$ %.2f", super.toString(), this.bonus / 100.0);
 	}
 	
 	

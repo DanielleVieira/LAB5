@@ -8,7 +8,7 @@ import exceptions.CenarioAbertoException;
 import exceptions.CenarioEncerradoException;
 import util.Verificador;
 
-public class Cenario {
+public class Cenario implements Comparable<Cenario>{
 
 	
 	
@@ -71,6 +71,12 @@ public class Cenario {
 
 	public int getId() {
 		return this.id;
+	}
+
+
+
+	public String getDescricao() {
+		return descricao;
 	}
 
 
@@ -181,6 +187,19 @@ public class Cenario {
 	public int getTotalRateioCenario() throws CenarioAbertoException {
 		this.verificaCenarioAberto("Erro na consulta do total de rateio do cenario: Cenario ainda esta aberto");
 		return this.rateio;
+	}
+
+
+
+	@Override
+	public int compareTo(Cenario o) {
+		if(this.id < o.getId()) {
+			return -1;
+		} else if(this.id > o.getId()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 }

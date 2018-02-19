@@ -46,9 +46,9 @@ public class SistemaDeApostas {
 
 
 
-	public String exibirCenario(int cenarioID) {
-		Verificador.verificaValorIDCenario(cenarioID, "Erro na consulta de cenario: Cenario invalido");
-		return this.cenariosControle.exibirCenario(cenarioID);
+	public String exibirCenario(int cenario) {
+		Verificador.verificaValorIDCenario(cenario, "Erro na consulta de cenario: Cenario invalido");
+		return this.cenariosControle.exibirCenario(cenario);
 	}
 
 
@@ -106,6 +106,19 @@ public class SistemaDeApostas {
 	public int getTotalRateioCenario(int cenarioID) throws CenarioAbertoException {
 		Verificador.verificaValorIDCenario(cenarioID, "Erro na consulta do total de rateio do cenario: Cenario invalido");
 		return this.cenariosControle.getTotalRateioCenario(cenarioID);
+	}
+
+
+
+	public void alterarOrdem(String ordem) {
+		this.cenariosControle.alterarOrdem(ordem);
+	}
+
+
+
+	public String exibirCenarioOrdenado(int cenario) {
+		Verificador.verificaValorIDCenario(cenario, "Erro na consulta de cenario ordenado: Cenario invalido");
+		return this.cenariosControle.exibirCenarioOrdenado(cenario);
 	}
 	
 }

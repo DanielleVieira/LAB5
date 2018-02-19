@@ -87,5 +87,17 @@ public class Facade {
     public int getTotalRateioCenario(int cenario) throws CenarioAbertoException {
     	return this.sistemaDeApostas.getTotalRateioCenario(cenario);
     }
+    
+    
+    
+    public void alterarOrdem(String ordem) {
+    	this.sistemaDeApostas.alterarOrdem(ordem);
+    }
+    
+    
+    
+    public String exibirCenarioOrdenado(int cenario) {
+    	return this.sistemaDeApostas.exibirCenarioOrdenado(cenario);
+    }
    
 }
