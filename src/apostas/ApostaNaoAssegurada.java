@@ -2,7 +2,7 @@ package apostas;
 
 import util.Verificador;
 
-public class Aposta {
+public class ApostaNaoAssegurada {
 
 	
 	
@@ -16,7 +16,7 @@ public class Aposta {
 
 	
 	
-	public Aposta(String apostador, int valor, String previsao) {
+	public ApostaNaoAssegurada(String apostador, int valor, String previsao) {
 		Verificador.verificaStringNula(apostador, this.msgError1);
 		Verificador.verificaStringVazia(apostador, this.msgError1);
 		Verificador.verificaValorMenorIgualZero(valor, this.msgError2);

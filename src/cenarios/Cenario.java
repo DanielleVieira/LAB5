@@ -3,9 +3,10 @@ package cenarios;
 import java.util.HashMap;
 import java.util.Map;
 
-import apostas.Aposta;
+import apostas.ApostaNaoAssegurada;
 import exceptions.CenarioAbertoException;
 import exceptions.CenarioEncerradoException;
+import factory.ApostaFactory;
 import util.Verificador;
 
 public class Cenario implements Comparable<Cenario>{
@@ -15,7 +16,7 @@ public class Cenario implements Comparable<Cenario>{
 	protected String descricao;
 	protected int id;
 	protected String estado;
-	protected Map<Integer, Aposta> apostas;
+	protected Map<Integer, ApostaNaoAssegurada> apostas;
 	protected boolean encerrado;
 	protected int rateio;
 	protected int chave;
@@ -38,22 +39,21 @@ public class Cenario implements Comparable<Cenario>{
 
 
 	public void cadastrarAposta(String apostador, int valor, String previsao) {
-		this.apostas.put(this.chave, this.criaAposta(apostador, valor, previsao));
+		this.apostas.put(this.chave, ApostaFactory.criaAposta(apostador, valor, previsao));
 		this.chave++;
-		
 	}
 	
 	
 	
-	protected Aposta criaAposta(String apostador, int valor, String previsao) {
-		try {
-			return new Aposta(apostador, valor, previsao);
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta: " + e.getMessage());
-		} catch(NullPointerException e) {
-			throw new NullPointerException("Erro no cadastro de aposta: " + e.getMessage());
-		}
-	}
+//	protected Aposta criaAposta(String apostador, int valor, String previsao) {
+//		try {
+//			return new Aposta(apostador, valor, previsao);
+//		} catch (IllegalArgumentException e) {
+//			throw new IllegalArgumentException("Erro no cadastro de aposta: " + e.getMessage());
+//		} catch(NullPointerException e) {
+//			throw new NullPointerException("Erro no cadastro de aposta: " + e.getMessage());
+//		}
+//	}
 	
 	
 	
@@ -116,7 +116,7 @@ public class Cenario implements Comparable<Cenario>{
 
 	public int valorTotalDeApostas() {
 		int soma = 0;
-		for (Aposta aposta : this.apostas.values()) {
+		for (ApostaNaoAssegurada aposta : this.apostas.values()) {
 			soma += aposta.getValor();
 		}
 		return soma;
@@ -132,7 +132,7 @@ public class Cenario implements Comparable<Cenario>{
 
 	public String exibeApostas() {
 		String str = "";
-		for (Aposta aposta : this.apostas.values()) {
+		for (ApostaNaoAssegurada aposta : this.apostas.values()) {
 			str += aposta.toString() + "\n";
 		}
 		return str;
@@ -148,7 +148,7 @@ public class Cenario implements Comparable<Cenario>{
 		this.verificaCenarioAberto("Erro na consulta do caixa do cenario: Cenario ainda esta aberto");
 		this.verificaCenarioEncerrado("Erro na consulta do caixa do cenario: Cenario encerrado");
 		
-		for (Aposta aposta : this.apostas.values()) {
+		for (ApostaNaoAssegurada aposta : this.apostas.values()) {
 			if(aposta.getPrevisao().equals("VAI ACONTECER")) {
 				somaOcorreu += aposta.getValor();
 			} else {
@@ -205,8 +205,8 @@ public class Cenario implements Comparable<Cenario>{
 
 
 	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa) {
-		// TODO Auto-generated method stub
-		
+		this.apostas.put(this.chave, ApostaFactory.criaApostaSeguraTaxa(apostador, valor, previsao, taxa));
+		this.chave++;
 	}
 
 

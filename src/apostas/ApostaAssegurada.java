@@ -6,7 +6,7 @@ public class ApostaAssegurada {
 
 	
 	
-	private Aposta aposta;
+	private ApostaNaoAssegurada aposta;
 	private Seguro seguro;
 	
 
@@ -14,7 +14,7 @@ public class ApostaAssegurada {
 	
 	public ApostaAssegurada(String apostador, int valor, String previsao, int valorAssegurado) {
 		Verificador.verificaValorMenorIgualZero(valorAssegurado, "Valor assegurado nao pode ser menor ou igual a zero");
-		this.aposta = new Aposta(apostador, valor, previsao);
+		this.aposta = new ApostaNaoAssegurada(apostador, valor, previsao);
 		this.seguro = new SeguroValor(valorAssegurado);
 	}
 	
@@ -22,7 +22,7 @@ public class ApostaAssegurada {
 	
 	public ApostaAssegurada(String apostador, int valor, String previsao, double valorTaxa) {
 		Verificador.verificaValorMenorIgualZero(valorTaxa, "Taxa nao pode ser menor ou igual a zero");
-		this.aposta = new Aposta(apostador, valor, previsao);
+		this.aposta = new ApostaNaoAssegurada(apostador, valor, previsao);
 		this.seguro = new SeguroTaxa(valorTaxa, this.aposta.getValor());
 	}
 

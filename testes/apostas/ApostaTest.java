@@ -9,55 +9,55 @@ public class ApostaTest {
 
 	
 	
-	private Aposta a1;
+	private ApostaNaoAssegurada a1;
 	
 	
 	
 	@Before
 	public void setUp() throws Exception {
-		this.a1 = new Aposta("Matheus Melanio", 10000, "N VAI ACONTECER");
+		this.a1 = new ApostaNaoAssegurada("Matheus Melanio", 10000, "N VAI ACONTECER");
 	}
 
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testApostaApostadorVazio() {
-		this.a1 = new Aposta("", 10000, "N VAI ACONTECER");
+		this.a1 = new ApostaNaoAssegurada("", 10000, "N VAI ACONTECER");
 	}
 
 	
 	
 	@Test(expected = NullPointerException.class)
 	public void testApostaApostadorNulo() {
-		this.a1 = new Aposta(null, 10000, "N VAI ACONTECER");
+		this.a1 = new ApostaNaoAssegurada(null, 10000, "N VAI ACONTECER");
 	}
 	
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testApostaValorInvalida() {
-		this.a1 = new Aposta("Matheus Melanio", 0, "N VAI ACONTECER");
+		this.a1 = new ApostaNaoAssegurada("Matheus Melanio", 0, "N VAI ACONTECER");
 	}
 	
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testApostaPrevisaoVazia() {
-		this.a1 = new Aposta("Matheus Melanio", 10000, "");
+		this.a1 = new ApostaNaoAssegurada("Matheus Melanio", 10000, "");
 	}
 	
 	
 	
 	@Test(expected = NullPointerException.class)
 	public void testApostaPrevisaoNula() {
-		this.a1 = new Aposta("Matheus Melanio", 10000, null);
+		this.a1 = new ApostaNaoAssegurada("Matheus Melanio", 10000, null);
 	}
 	
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testApostaPrevisaoInvalida() {
-		this.a1 = new Aposta("Matheus Melanio", 10000, "ACONTECER");
+		this.a1 = new ApostaNaoAssegurada("Matheus Melanio", 10000, "ACONTECER");
 	}
 	
 	
