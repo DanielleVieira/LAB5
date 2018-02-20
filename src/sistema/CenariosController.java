@@ -168,5 +168,19 @@ public class CenariosController {
 		this.verificaCenarioNaoCadastrado(cenario, "Erro na consulta de cenario ordenado: Cenario nao cadastrado");
 		return this.cenarios.get(cenario- 1).toString();
 	}
+
+
+
+	public int cadastrarApostaSeguraValor(int cenarioID, String apostador, int valor, String previsao, int valorAssegurado) {
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro no cadastro de aposta assegurada por valor: Cenario nao cadastrado");
+		return this.buscaCenario(cenarioID).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado);
+	}
+
+
+
+	public int cadastrarApostaSeguraTaxa(int cenarioID, String apostador, int valor, String previsao, double taxa) {
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro no cadastro de aposta assegurada por taxa: Cenario nao cadastrado");
+		return this.buscaCenario(cenarioID).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
+	}
 	
 }

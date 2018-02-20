@@ -99,5 +99,17 @@ public class Facade {
     public String exibirCenarioOrdenado(int cenario) {
     	return this.sistemaDeApostas.exibirCenarioOrdenado(cenario);
     }
+    
+    
+    
+    public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorAssegurado, int custo) {
+		return this.sistemaDeApostas.cadastrarApostaSeguraValor(cenario, apostador, valor, previsao, valorAssegurado, custo);
+	}
+    
+    
+    
+    public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) {
+		return this.sistemaDeApostas.cadastrarApostaSeguraTaxa(cenario, apostador, valor, previsao, taxa, custo);
+	}
    
 }

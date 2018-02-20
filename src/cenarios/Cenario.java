@@ -202,4 +202,18 @@ public class Cenario implements Comparable<Cenario>{
 		}
 	}
 
+
+
+	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

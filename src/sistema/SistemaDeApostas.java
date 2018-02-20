@@ -123,6 +123,20 @@ public class SistemaDeApostas {
 	
 	
 	
+	public int cadastrarApostaSeguraValor(int cenarioID, String apostador, int valor, String previsao, int valorAssegurado, int custo) {
+		Verificador.verificaValorIDCenario(cenarioID, "Erro no cadastro de aposta assegurada por valor: Cenario invalido");
+		int apostaID = this.cenariosControle.cadastrarApostaSeguraValor(cenarioID, apostador, valor, previsao, valorAssegurado);
+		this.caixa += custo;
+		return apostaID;
+	}
 	
+	
+	
+	public int cadastrarApostaSeguraTaxa(int cenarioID, String apostador, int valor, String previsao, double taxa, int custo) {
+		Verificador.verificaValorIDCenario(cenarioID, "Erro no cadastro de aposta assegurada por taxa: Cenario invalido");
+		int apostaID = this.cenariosControle.cadastrarApostaSeguraTaxa(cenarioID, apostador, valor, previsao, taxa);
+		this.caixa += custo;
+		return apostaID;
+	}
 	
 }
