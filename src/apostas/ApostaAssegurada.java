@@ -2,7 +2,7 @@ package apostas;
 
 import util.Verificador;
 
-public class ApostaAssegurada {
+public class ApostaAssegurada{
 
 	
 	
@@ -43,6 +43,18 @@ public class ApostaAssegurada {
 
 	public String getPrevisao() {
 		return this.aposta.getPrevisao();
+	}
+
+
+
+	public void alterarSeguroTaxa(double taxa) {
+		this.seguro = new SeguroTaxa(taxa, this.aposta.getValor());
+	}
+
+
+
+	public void alterarSeguroValor(int valor) {
+		this.seguro = new SeguroValor(valor);
 	}
 
 }

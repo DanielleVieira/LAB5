@@ -111,5 +111,17 @@ public class Facade {
     public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) {
 		return this.sistemaDeApostas.cadastrarApostaSeguraTaxa(cenario, apostador, valor, previsao, taxa, custo);
 	}
+    
+    
+    
+    public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {
+    	return this.sistemaDeApostas.alterarSeguroValor(cenario, apostaAssegurada, valor);
+    }
+    
+    
+    
+    public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
+    	return this.sistemaDeApostas.alterarSeguroTaxa(cenario, apostaAssegurada, taxa);
+    }
    
 }

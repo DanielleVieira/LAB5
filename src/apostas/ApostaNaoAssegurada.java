@@ -2,7 +2,7 @@ package apostas;
 
 import util.Verificador;
 
-public class ApostaNaoAssegurada {
+public class ApostaNaoAssegurada{
 
 	
 	

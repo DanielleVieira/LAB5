@@ -1,8 +1,11 @@
 package cenarios;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import apostas.ApostaAssegurada;
 import apostas.ApostaNaoAssegurada;
 import exceptions.CenarioAbertoException;
 import exceptions.CenarioEncerradoException;
@@ -16,10 +19,12 @@ public class Cenario implements Comparable<Cenario>{
 	protected String descricao;
 	protected int id;
 	protected String estado;
-	protected Map<Integer, ApostaNaoAssegurada> apostas;
+	protected List<ApostaNaoAssegurada> apostasNaoAsseguradas;
+	protected Map<Integer, ApostaAssegurada> apostasAsseguradas;
 	protected boolean encerrado;
 	protected int rateio;
 	protected int chave;
+	protected static final int ALTERADO_COM_SUCESSO = 1;
 	
 	
 	
@@ -30,7 +35,8 @@ public class Cenario implements Comparable<Cenario>{
 		this.descricao = descricao;
 		this.id = id;
 		this.estado = "Nao finalizado";
-		this.apostas = new HashMap<>();
+		this.apostasNaoAsseguradas = new ArrayList<>();
+		this.apostasAsseguradas = new HashMap<>();
 		this.encerrado = false;
 		this.rateio = 0;
 		this.chave = 0;
@@ -39,21 +45,11 @@ public class Cenario implements Comparable<Cenario>{
 
 
 	public void cadastrarAposta(String apostador, int valor, String previsao) {
-		this.apostas.put(this.chave, ApostaFactory.criaAposta(apostador, valor, previsao));
+		this.apostasNaoAsseguradas.add(ApostaFactory.criaAposta(apostador, valor, previsao));
 		this.chave++;
+		//this.apostas.put(this.chave, ApostaFactory.criaAposta(apostador, valor, previsao));
+		//this.chave++;
 	}
-	
-	
-	
-//	protected Aposta criaAposta(String apostador, int valor, String previsao) {
-//		try {
-//			return new Aposta(apostador, valor, previsao);
-//		} catch (IllegalArgumentException e) {
-//			throw new IllegalArgumentException("Erro no cadastro de aposta: " + e.getMessage());
-//		} catch(NullPointerException e) {
-//			throw new NullPointerException("Erro no cadastro de aposta: " + e.getMessage());
-//		}
-//	}
 	
 	
 	
@@ -116,7 +112,10 @@ public class Cenario implements Comparable<Cenario>{
 
 	public int valorTotalDeApostas() {
 		int soma = 0;
-		for (ApostaNaoAssegurada aposta : this.apostas.values()) {
+		for (ApostaNaoAssegurada aposta : this.apostasNaoAsseguradas) {
+			soma += aposta.getValor();
+		}
+		for (ApostaAssegurada aposta : this.apostasAsseguradas.values()) {
 			soma += aposta.getValor();
 		}
 		return soma;
@@ -125,14 +124,14 @@ public class Cenario implements Comparable<Cenario>{
 
 
 	public int totalDeApostas() {
-		return this.apostas.size();
+		return this.apostasNaoAsseguradas.size() + this.apostasAsseguradas.size();
 	}
 
 
 
 	public String exibeApostas() {
 		String str = "";
-		for (ApostaNaoAssegurada aposta : this.apostas.values()) {
+		for (ApostaNaoAssegurada aposta : this.apostasNaoAsseguradas) {
 			str += aposta.toString() + "\n";
 		}
 		return str;
@@ -141,26 +140,17 @@ public class Cenario implements Comparable<Cenario>{
 
 
 	public int getCaixaCenario(double taxa) throws CenarioAbertoException, CenarioEncerradoException {
-		int somaOcorreu = 0;
-		int somaNOcorreu = 0;
 		int valorCaixa = 0;
 		
 		this.verificaCenarioAberto("Erro na consulta do caixa do cenario: Cenario ainda esta aberto");
 		this.verificaCenarioEncerrado("Erro na consulta do caixa do cenario: Cenario encerrado");
 		
-		for (ApostaNaoAssegurada aposta : this.apostas.values()) {
-			if(aposta.getPrevisao().equals("VAI ACONTECER")) {
-				somaOcorreu += aposta.getValor();
-			} else {
-				somaNOcorreu += aposta.getValor();
-			}
-		}
 		if(this.estado.equals("Finalizado (ocorreu)")) {
-			valorCaixa = (int) ( somaNOcorreu * taxa);
-			this.rateio = somaNOcorreu - valorCaixa;
+			valorCaixa = (int) ( this.valorTotalDeApostasPerdedoras() * taxa);
+			this.rateio = this.valorTotalDeApostasPerdedoras() - valorCaixa;
 		} else {
-			valorCaixa = (int) (somaOcorreu * taxa);
-			this.rateio = somaOcorreu - valorCaixa;
+			valorCaixa = (int) (this.valorTotalDeApostasGanhadoras() * taxa);
+			this.rateio = this.valorTotalDeApostasGanhadoras() - valorCaixa;
 		}
 		return valorCaixa;
 	}
@@ -179,6 +169,40 @@ public class Cenario implements Comparable<Cenario>{
 		if(this.estado.equals("Nao finalizado")) {
 			throw new CenarioAbertoException(msg);
 		}
+	}
+	
+	
+	
+	protected int valorTotalDeApostasGanhadoras() {
+		int soma = 0;
+		for (ApostaNaoAssegurada apostaNaoAssegurada : this.apostasNaoAsseguradas) {
+			if(apostaNaoAssegurada.getPrevisao().equals("VAI ACONTECER")) {
+				soma += apostaNaoAssegurada.getValor();
+			}
+		}
+		for (ApostaAssegurada apostaAssegurada : this.apostasAsseguradas.values()) {
+			if(apostaAssegurada.getPrevisao().equals("VAI ACONTECER")) {
+				soma += apostaAssegurada.getValor();
+			}
+		}
+		return soma;
+	}
+	
+	
+	
+	protected int valorTotalDeApostasPerdedoras() {
+		int soma = 0;
+		for (ApostaNaoAssegurada apostaNaoAssegurada : this.apostasNaoAsseguradas) {
+			if(apostaNaoAssegurada.getPrevisao().equals("N VAI ACONTECER")) {
+				soma += apostaNaoAssegurada.getValor();
+			}
+		}
+		for (ApostaAssegurada apostaAssegurada : this.apostasAsseguradas.values()) {
+			if(apostaAssegurada.getPrevisao().equals("N VAI ACONTECER")) {
+				soma += apostaAssegurada.getValor();
+			}
+		}
+		return soma;
 	}
 
 	
@@ -205,15 +229,41 @@ public class Cenario implements Comparable<Cenario>{
 
 
 	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa) {
-		this.apostas.put(this.chave, ApostaFactory.criaApostaSeguraTaxa(apostador, valor, previsao, taxa));
+		this.apostasAsseguradas.put(this.chave, ApostaFactory.criaApostaSeguraTaxa(apostador, valor, previsao, taxa));
 		this.chave++;
+		return this.chave - 1;
 	}
 
 
 
 	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado) {
-		// TODO Auto-generated method stub
-		return 0;
+		this.apostasAsseguradas.put(this.chave, ApostaFactory.criaApostaSeguraValor(apostador, valor, previsao, valorAssegurado));
+		this.chave++;
+		return this.chave - 1;
+	}
+
+
+
+	public int alterarSeguroTaxa(int apostaAssegurada, double taxa) {
+		this.verificaApostaAsseguradaCadastrada(apostaAssegurada);
+		this.apostasAsseguradas.get(apostaAssegurada).alterarSeguroTaxa(taxa);
+		return this.ALTERADO_COM_SUCESSO;
+	}
+	
+	
+	
+	protected void verificaApostaAsseguradaCadastrada(int apostaAsseguradaID) {
+		if(!apostasAsseguradas.keySet().contains(apostaAsseguradaID)) {
+			throw new IllegalArgumentException("Aposta assegurada não cadastrada");
+		}
+	}
+
+
+
+	public int alterarSeguroValor(int apostaAssegurada, int valor) {
+		this.verificaApostaAsseguradaCadastrada(apostaAssegurada);
+		this.apostasAsseguradas.get(apostaAssegurada).alterarSeguroValor(valor);
+		return this.ALTERADO_COM_SUCESSO;
 	}
 
 }

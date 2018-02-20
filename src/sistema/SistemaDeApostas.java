@@ -138,5 +138,19 @@ public class SistemaDeApostas {
 		this.caixa += custo;
 		return apostaID;
 	}
+
+
+
+	public int alterarSeguroValor(int cenarioID, int apostaAssegurada, int valor) {
+		Verificador.verificaValorIDCenario(cenarioID, "Erro alteração para aposta assegurada por valor: Cenario invalido");
+		return this.cenariosControle.alterarSeguroValor(cenarioID, apostaAssegurada, valor);
+	}
+
+
+
+	public int alterarSeguroTaxa(int cenarioID, int apostaAssegurada, double taxa) {
+		Verificador.verificaValorIDCenario(cenarioID, "Erro alteração para aposta assegurada por taxa: Cenario invalido");
+		return this.cenariosControle.alterarSeguroTaxa(cenarioID, apostaAssegurada, taxa);
+	}
 	
 }

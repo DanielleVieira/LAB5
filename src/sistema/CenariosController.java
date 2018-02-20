@@ -182,5 +182,19 @@ public class CenariosController {
 		this.verificaCenarioNaoCadastrado(cenarioID, "Erro no cadastro de aposta assegurada por taxa: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
 	}
+
+
+
+	public int alterarSeguroValor(int cenarioID, int apostaAssegurada, int valor) {
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro alteração para aposta assegurada por valor: Cenario nao cadastrado");
+		return this.buscaCenario(cenarioID).alterarSeguroValor(apostaAssegurada, valor);
+	}
+
+
+
+	public int alterarSeguroTaxa(int cenarioID, int apostaAssegurada, double taxa) {
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro alteração para aposta assegurada por valor: Cenario nao cadastrado");
+		return this.buscaCenario(cenarioID).alterarSeguroTaxa(apostaAssegurada, taxa);
+	}
 	
 }
