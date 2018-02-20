@@ -7,10 +7,10 @@ import cenarios.Cenario;
 public class ComparadorPorCadastro implements Comparator<Cenario>{
 
 	@Override
-	public int compare(Cenario o1, Cenario o2) {
-		if(o1.getId() < o2.getId()) {
+	public int compare(Cenario cen1, Cenario cen2) {
+		if(cen1.getId() < cen2.getId()) {
 			return -1;
-		} else if(o1.getId() > o2.getId()) {
+		} else if(cen1.getId() > cen2.getId()) {
 			return 1;
 		} else {
 			return 0;

@@ -74,13 +74,13 @@ public class CenariosController {
 	
 	
 	private Cenario buscaCenario(int cenarioID) {
-		this.validaCenarioNaoCadastrado(cenarioID, "Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Cenario nao cadastrado");
 		return this.cenarios.get(cenarioID - 1);
 	}
 
 
 
-	private void validaCenarioNaoCadastrado(int cenarioID, String msg) {
+	private void verificaCenarioNaoCadastrado(int cenarioID, String msg) {
 		if(cenarioID > this.cenarios.size()) {
 			throw new IllegalArgumentException(msg);
 		}
@@ -100,35 +100,35 @@ public class CenariosController {
 
 
 	public void cadastrarAposta(int cenarioID, String apostador, int valor, String previsao) {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro no cadastro de aposta: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro no cadastro de aposta: Cenario nao cadastrado");
 		this.buscaCenario(cenarioID).cadastrarAposta(apostador, valor, previsao);
 	}
 
 
 
 	public int valorTotalDeApostas(int cenarioID) {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta do valor total de apostas: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro na consulta do valor total de apostas: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).valorTotalDeApostas();
 	}
 
 
 
 	public int totalDeApostas(int cenarioID) {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta do total de apostas: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro na consulta do total de apostas: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).totalDeApostas();
 	}
 
 
 
 	public String exibeApostas(int cenarioID) {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta de apostas: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro na consulta de apostas: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).exibeApostas();
 	}
 
 
 
 	public void fecharAposta(int cenarioID, boolean ocorreu) throws ApostaFechadaException {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro ao fechar aposta: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro ao fechar aposta: Cenario nao cadastrado");
 		Cenario cenario = this.buscaCenario(cenarioID);
 		if(cenario.getEstado().equals("Nao finalizado")) {
 			if(ocorreu) {
@@ -144,14 +144,14 @@ public class CenariosController {
 
 
 	public int getCaixaCenario(int cenarioID, double taxa) throws CenarioAbertoException, CenarioEncerradoException {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta do caixa do cenario: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro na consulta do caixa do cenario: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).getCaixaCenario(taxa);
 	}
 
 
 
 	public int getTotalRateioCenario(int cenarioID) throws CenarioAbertoException {
-		this.validaCenarioNaoCadastrado(cenarioID, "Erro na consulta do total de rateio do cenario: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenarioID, "Erro na consulta do total de rateio do cenario: Cenario nao cadastrado");
 		return this.buscaCenario(cenarioID).getTotalRateioCenario();
 	}
 
@@ -165,7 +165,7 @@ public class CenariosController {
 
 
 	public String exibirCenarioOrdenado(int cenario) {
-		this.validaCenarioNaoCadastrado(cenario, "Erro na consulta de cenario ordenado: Cenario nao cadastrado");
+		this.verificaCenarioNaoCadastrado(cenario, "Erro na consulta de cenario ordenado: Cenario nao cadastrado");
 		return this.cenarios.get(cenario- 1).toString();
 	}
 	

@@ -7,11 +7,11 @@ import cenarios.Cenario;
 public class ComparadorPorNome implements Comparator<Cenario>{
 
 	@Override
-	public int compare(Cenario o1, Cenario o2) {
-		if(o1.getDescricao().compareTo(o2.getDescricao()) != 0) {
-			return o1.getDescricao().compareTo(o2.getDescricao());
+	public int compare(Cenario cen1, Cenario cen2) {
+		if(cen1.getDescricao().compareTo(cen2.getDescricao()) != 0) {
+			return cen1.getDescricao().compareTo(cen2.getDescricao());
 		} else {
-			return o1.compareTo(o2);
+			return cen1.compareTo(cen2);
 		}
 	}
 

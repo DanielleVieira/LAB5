@@ -6,9 +6,9 @@ public class Aposta {
 
 	
 	
-	protected String apostador;
-	protected int valor; // valor da aposta em centavos
-	protected String previsao;
+	private String apostador;
+	private int valor; // valor da aposta em centavos
+	private String previsao;
 	private final String msgError1 = "Apostador nao pode ser vazio ou nulo";
 	private final String msgError2 = "Valor nao pode ser menor ou igual a zero";
 	private final String msgError3 = "Previsao nao pode ser vazia ou nula";
@@ -38,7 +38,7 @@ public class Aposta {
 
 	@Override
 	public String toString() {
-		return this.apostador + " - " + "R$" + this.valor / 100 + ",00" + " - " + this.previsao;
+		return String.format("%s - R$%.2f - %s", this.apostador, this.valor / 100.0, this.previsao);
 	}
 
 
